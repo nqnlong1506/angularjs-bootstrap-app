@@ -1,0 +1,50 @@
+<!-- <div class="position-relative container-fluid p-5 bg-primary text-white text-center">
+  <div class="position-absolute w-75 h-25 top-25 start-50 translate-middle">
+    <a href="" class="text-white position-absolute end-0" ng-click="logout()">Log Out!</a>
+  </div>
+  <div>
+    <h1>Manage your tasks here, {{ user.email }}!</h1>
+    <p>My First Bootstrap Index Page</p>
+  </div>
+</div> -->
+
+<div class="container mt-5">
+  <div class="container w-75">
+    <form>
+      <div class="row">
+        <div class="col position-relative">
+          <label class="position-absolute top-50 end-0 translate-middle">Title:</label>
+        </div>
+        <div class="col-8">
+          <input type="text" placeholder="text" class="w-100" ng-model="task.title">
+        </div>
+        <div class="col d-flex justify-content-around ">
+          <button type="submit" ng-click="submitTask()">Submit</button>
+          <button value="Load" ng-click="loadMyTasks()">Load</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col" class="w-50">Title</th>
+          <th scope="col">Done</th>
+          <th scope="col">Created At</th>
+          <th scope="col">#</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="t in tasks">
+          <th scope="row">{{ t.id }}</th>
+          <td><a href="/#/task/{{t.id}}">{{ t.title }}</a></td>
+          <td>{{ t.is_done == 1 ? true : false }}</td>
+          <td>{{ t.created_at }}</td>
+          <td><input type="button" value="delete" ng-click="deleteTask(t.id)"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
