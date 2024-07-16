@@ -14,15 +14,15 @@
         </tr>
 				<tr>
           <td>Title:</td>
-          <td><input type="text" value="long"></td>
+          <td><input type="text" ng-model="task.title"></td>
         </tr>
 				<tr>
           <td>Complete:</td>
-          <td><input type="checkbox"></td>
+          <td><input type="checkbox" ng-model="complete"></td>
         </tr>
 				<tr>
           <td>Created At:</td>
-          <td>Timezone</td>
+          <td>{{ task.created_at }}</td>
         </tr>
       </tbody>
     </table>

@@ -176,10 +176,24 @@ app.controller('myAppCtrl', function ($scope, $http, $cookies) {
 });
 
 app.controller('detailCtrl', function ($scope, $http, $cookies, $routeParams) {
+	console.log($routeParams.id);
 	// $scope.GetTaskById =  function() {
 
 	// }
 
-	console.log($routeParams.id);
+	$scope.task = {
+		'id': 111,
+		'title': 'go swimming',
+		'is_done': 1,
+		'created_at': '2024-07-16 15:00:00'
+	}
+
+	$scope.complete = $scope.task.is_done == 1 ? true : false;
+
+	$scope.updateTask = function() {
+		$scope.task.is_done = $scope.complete ? 1 : 0;
+		console.log('update task', $scope.task);
+	}
+
 	
 });
