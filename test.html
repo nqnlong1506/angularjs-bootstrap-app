@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html ng-app="paginationApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AngularJS Pagination with Bootstrap</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body ng-controller="PaginationController">
+
+<div class="container mt-5">
+    <h2>Pagination Example</h2>
+    <ul class="list-group mb-3">
+        <li class="list-group-item" ng-repeat="item in filteredItems">{{ item }}</li>
+    </ul>
+
+    <ul class="pagination">
+        <li class="page-item" ng-class="{disabled: currentPage == 0}">
+            <a class="page-link" href="" ng-click="prevPage()">Previous</a>
+        </li>
+        <li class="page-item" ng-repeat="n in range(totalPages)" ng-class="{active: n == currentPage}">
+            <a class="page-link" href="" ng-click="setPage(n)">{{ n + 1 }}</a>
+        </li>
+        <li class="page-item" ng-class="{disabled: currentPage == totalPages - 1}">
+            <a class="page-link" href="" ng-click="nextPage()">Next</a>
+        </li>
+    </ul>
+</div>
+
+<!-- Include AngularJS -->
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+<!-- Include Custom JS -->
+<script src="test.js"></script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-<div class="position-absolute start-50 top-50 translate-middle w-25 h-50">
+<div class="d-flex justify-content-center align-items-center mt-5">
 	<form action="">
 		<table class="table table-striped w-100">
       <thead>
@@ -24,11 +24,15 @@
           <td>Created At:</td>
           <td>{{ task.created_at }}</td>
         </tr>
+        <tr>
+          <td><a href="/#/list"><input type="button" value="Back"/></a></td>
+          <td class="d-flex justify-content-center align-items-center"><input type="button" ng-click="updateTask()" value="Update"/></td>
+        </tr>
       </tbody>
     </table>
-		<div class="d-flex justify-content-around">
-			<a href="/#/list"><button>Back</button></a>
-			<button ng-click="updateTask()">update</button>
-		</div>
+		<!-- <div class="d-flex justify-content-around">
+			<a href="/#/list"><input type="button" value="Back"/></a>
+			<input type="button" ng-click="updateTask()" value="Update"/>
+		</div> -->
 	</form>
 </div>

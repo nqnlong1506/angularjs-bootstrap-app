@@ -86,37 +86,16 @@ app.controller('myAppCtrl', function ($scope, $http, $cookies) {
 					// Error callback
 					$scope.responseMessage = 'Error: ' + error.data.message;
 					console.error(error);
-					alert('Email or Password incorrectly.');
-				}
-			);
-	}
-
-	$scope.login = function () {
-		console.log($scope.user.email + ' ' + $scope.user.password + ' ' + ENDPOINT_URL);
-		$http
-			.post(ENDPOINT_URL + '/api/user/login', $scope.user)
-			.then(
-				function (response) {
-					// Success callback
-					$scope.responseMessage = 'User created successfully.';
-					console.log(response.data.data.token);
-					alert('User Login Successfully.');
-					$cookies.put('session-token', response.data.data.token);
-
-					location.href = '/index.html';
-					// getList();
-				},
-				function (error) {
-					// Error callback
-					$scope.responseMessage = 'Error: ' + error.data.message;
-					console.error(error);
+					if (error.status == 511) {
+						alert('session is expired, login to continue.');
+						$cookies.remove('session-token');
+						location.href = '/login.html';
+					}
 				}
 			);
 	}
 
 	$scope.deleteTask = function ($taskId) {
-		alert($taskId)
-
 		var config = {
 			headers: {
 				'session-id': $cookies.get('session-token')
@@ -141,6 +120,11 @@ app.controller('myAppCtrl', function ($scope, $http, $cookies) {
 					// Error callback
 					$scope.responseMessage = 'Error: ' + error.data.message;
 					console.error(error);
+					if (error.status == 511) {
+						alert('session is expired, login to continue.');
+						$cookies.remove('session-token');
+						location.href = '/login.html';
+					}
 				}
 			);
 	}
@@ -169,6 +153,11 @@ app.controller('myAppCtrl', function ($scope, $http, $cookies) {
 					// Error callback
 					$scope.responseMessage = 'Error: ' + error.data.message;
 					console.error(error);
+					if (error.status == 511) {
+						alert('session is expired, login to continue.');
+						$cookies.remove('session-token');
+						location.href = '/login.html';
+					}
 				}
 			);
 	}
@@ -182,18 +171,83 @@ app.controller('detailCtrl', function ($scope, $http, $cookies, $routeParams) {
 	// }
 
 	$scope.task = {
-		'id': 111,
-		'title': 'go swimming',
+		'id': $routeParams.id,
+		'title': 'sample title',
 		'is_done': 1,
-		'created_at': '2024-07-16 15:00:00'
+		'created_at': '2024-07-16 00:00:00'
 	}
 
-	$scope.complete = $scope.task.is_done == 1 ? true : false;
+	// $scope.complete = $scope.task.is_done == 1 ? true : false;
 
-	$scope.updateTask = function() {
-		$scope.task.is_done = $scope.complete ? 1 : 0;
-		console.log('update task', $scope.task);
+	$scope.updateTask = function () {
+		if ($scope.task.title == '') {
+			alert('Title REQUIRED.');
+
+			return;
+		}
+
+		var config = {
+			headers: {
+				'session-id': $cookies.get('session-token')
+			}
+		};
+
+		var body = {
+			'id': $scope.task.id,
+			'title': $scope.task.title,
+			'isDone': $scope.complete ? 1 : 0
+		}
+
+		console.log(body);
+
+		$http
+			.post(ENDPOINT_URL + '/api/task/update', body, config)
+			.then(
+				function (response) {
+					// Success callback
+					console.log(response.data);
+					// getList();
+				},
+				function (error) {
+					// Error callback
+					$scope.responseMessage = 'Error: ' + error.data.message;
+					console.error(error);
+					if (error.status == 511) {
+						alert('session is expired, login to continue.');
+						$cookies.remove('session-token');
+						location.href = '/login.html';
+					}
+				}
+			);
 	}
 
-	
+	$scope.getTaskById = function ($taskId) {
+		var config = {
+			headers: {
+				'session-id': $cookies.get('session-token')
+			}
+		};
+
+		$http
+			.get(ENDPOINT_URL + '/api/task/task/' + $taskId, config)
+			.then(
+				function (response) {
+					console.log(response);
+					$scope.task = response.data.data;
+					$scope.complete = $scope.task.is_done == 1 ? true : false;
+				},
+				function (error) {
+					// Error callback
+					$scope.responseMessage = 'Error: ' + error.data.message;
+					console.error(error);
+					if (error.status == 511) {
+						alert('session is expired, login to continue.');
+						$cookies.remove('session-token');
+						location.href = '/login.html';
+					}
+				}
+			);
+	}
+	$scope.getTaskById($routeParams.id);
+
 });
