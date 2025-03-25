@@ -7,11 +7,6 @@ login.controller('loginCtrl', function ($scope, $http, $cookies) {
 		'password': ''
 	}
 
-	// $cookies.get('session-token') 
-	if ($cookies.get('session-token') != null) {
-		location.href = "/";
-	}
-
 	$scope.login = function () {
 		console.log($scope.user.email + ' ' + $scope.user.password + ' ' + ENDPOINT_URL);
 		$http
@@ -24,7 +19,7 @@ login.controller('loginCtrl', function ($scope, $http, $cookies) {
 					alert('User Login Successfully.');
 					$cookies.put('session-token', response.data.data.token);
 
-					location.href = '/';
+					location.href = '/index.html';
 					// getList();
 				},
 				function (error) {
